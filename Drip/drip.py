@@ -93,7 +93,7 @@ data = {
     "lfds": lfds
 }
 
-print(f"\n{Fore.BLACK}History:{Style.RESET_ALL}")
+print(f"\n{Fore.MAGENTA}History:{Style.RESET_ALL}")
 
 try:
     with open("drip_data/history.json", "r", encoding="utf-8") as f:

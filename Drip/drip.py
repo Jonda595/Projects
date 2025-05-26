@@ -40,9 +40,9 @@ file_path = "/drip_perf_test/test_file.bin"
 file_path = drive + file_path
 
 print("Type the size of the file in megabytes:")
-size = float(input(''))
+lfsize = float(input(''))
 
-#if size == float("") :
+#if lfsize == float("") :
 #    print(f"{Fore.RED}You didn't typed anything!{Style.RESET_ALL}")
 #    sys.exit()
 
@@ -52,11 +52,11 @@ os.makedirs(folder_path, exist_ok=True)
 
 start = time.time()
 with open(file_path, "wb") as f:
-    f.write(b"\x00" * int(size * 1024 * 1024))
+    f.write(b"\x00" * int(lfsize * 1024 * 1024))
 end = time.time()
 
 lfwt = f"{(end - start):.2f}"
-lfws = (f"{compute_speed(size, start, end):.2f}")
+lfws = (f"{compute_speed(lfsize, start, end):.2f}")
 print(f"Large file {Fore.RED}write {Fore.BLUE}time: {Fore.GREEN}{lfwt} seconds{Style.RESET_ALL}")
 print(f"Large file {Fore.RED}write {Fore.BLUE}speed: {Fore.GREEN}{lfws} MB/s{Style.RESET_ALL}")
 
@@ -67,7 +67,7 @@ with open(file_path, "r", encoding="utf-8") as f:
 end = time.time()
 
 lfrt = f"{(end - start):.2f}"
-lfrs = (f"{compute_speed(size, start, end):.2f}")
+lfrs = (f"{compute_speed(lfsize, start, end):.2f}")
 print(f"Large file {Fore.RED}read {Fore.BLUE}time: {Fore.GREEN}{lfrt} seconds{Style.RESET_ALL}")
 print(f"Large file {Fore.RED}read {Fore.BLUE}speed: {Fore.GREEN}{lfrs} MB/s{Style.RESET_ALL}")
 
@@ -78,13 +78,14 @@ end = time.time()
 
 lfdt = f"{(end - start):.2f}"
 try:
-    lfds = (f"{compute_speed(size, start, end):.2f}")
+    lfds = (f"{compute_speed(lfsize, start, end):.2f}")
 except:
     print(f"{Fore.RED}Error while computing speed. Try again.{Style.RESET_ALL}")
 print(f"Large file {Fore.RED}delete {Fore.BLUE}time: {Fore.GREEN}{lfdt} seconds{Style.RESET_ALL}")
 print(f"Large file {Fore.RED}delete {Fore.BLUE}speed: {Fore.GREEN}{lfds} MB/s{Style.RESET_ALL}")
 
 data = {
+    "lfsize": lfsize,
     "lfwt": lfwt,
     "lfws": lfws,
     "lfrt": lfrt,
@@ -98,6 +99,7 @@ print(f"\n{Fore.MAGENTA}History:{Style.RESET_ALL}")
 try:
     with open("drip_data/history.json", "r", encoding="utf-8") as f:
         loaded_data = json.load(f)
+    loaded_lfsize = loaded_data.get("lfsize", "None")
     loaded_lfwt = loaded_data.get("lfwt", "None")
     loaded_lfws = loaded_data.get("lfws", "None")
     loaded_lfrt = loaded_data.get("lfrt", "None")
